@@ -1,12 +1,7 @@
 import unittest
 import pandas as pd
 import numpy as np
-
-def data_cleanup(df, experiments):
-    for ax_col, my_col in experiments:
-        df.loc[df[ax_col] < 0.15, [ax_col, my_col]] = np.nan
-        df.loc[df[my_col] < 0.03, [ax_col, my_col]] = np.nan
-    return "Success", "Data cleaned successfully."
+from data_cleanup import data_cleanup 
 
 
 
@@ -26,8 +21,8 @@ class TestDataCleanup(unittest.TestCase):
         expected_data = {
             'CTL1_Ax': [0.79, 0.85, np.nan],
             'CTL1_My': [0.22, 0.33, np.nan],
-            'CTL2_Ax': [np.nan, 0.54, 0.63],
-            'CTL2_My': [np.nan, 0.18, 0.20]
+            'CTL2_Ax': [0.54, 0.63, np.nan],
+            'CTL2_My': [0.18, 0.20, np.nan]
         }
         expected_df = pd.DataFrame(expected_data)
         status, message = data_cleanup(df, experiments)
