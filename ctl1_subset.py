@@ -43,12 +43,14 @@ def create_subsets_based_on_ranges(df, column, ranges, writer, sheet_name_prefix
 
         subset_df = df[(df[column] >= min_range) & (df[column] <= max_range)]
         
-        if not subset_df.empty:
-            subset_sheet_name = f"{sheet_name_prefix}_Subset{i+1}"
-            subset_df.to_excel(writer, sheet_name=subset_sheet_name, index=False)
-        else:
+        subset_sheet_name = f"{sheet_name_prefix}_Subset{i+1}"
+        # Write data to sheet regardless of whether it's empty or not
+        subset_df.to_excel(writer, sheet_name=subset_sheet_name, index=False)
+
+        if subset_df.empty:
             print(f"No data found for {sheet_name_prefix} in the range {min_range} to {max_range}")
-# After writing, check if 'Sheet1' is present and empty, then remove it
+
+    # After writing, check if 'Sheet1' is present and empty, then remove it
     try:
         workbook = writer.book
         if 'Sheet1' in workbook.sheetnames:
@@ -57,6 +59,7 @@ def create_subsets_based_on_ranges(df, column, ranges, writer, sheet_name_prefix
                 workbook.remove(sheet1)
     except Exception as e:
         print(f"Error checking/removing empty 'Sheet1': {e}")
+
 
 
 
