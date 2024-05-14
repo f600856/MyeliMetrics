@@ -26,11 +26,6 @@ def get_max_fiber_diameters(df):
 
 
 
-
-
-
-
-
 def calculate_means_and_plot(ctl_df, exp_df, max_fibers, ctl_prefix, ctl_group, exp_prefix, exp_group): 
     fig, ax = plt.subplots()  
     datasets = {'CTL': ctl_df, 'EXP': exp_df}
