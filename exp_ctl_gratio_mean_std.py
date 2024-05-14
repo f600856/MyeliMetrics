@@ -45,7 +45,7 @@ def extract_and_organize_data(sheets, group_prefix):
 
 
 def process_data(ctl_path, exp_path, save_path):
-    # Assuming the function 'extract_and_organize_data' is already defined as shown previously
+   
     ctl_sheets = pd.read_excel(ctl_path, sheet_name=None)
     exp_sheets = pd.read_excel(exp_path, sheet_name=None)
 

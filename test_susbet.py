@@ -57,7 +57,7 @@ class TestFiberDiameterProcessing(unittest.TestCase):
 
 
     def test_create_subsets_based_on_ranges(self):
-        # Mock-up or call the function that sets up the range definitions and creates the sheets
+        
         ranges = [{'Subset': 'CTL1_Subset1', 'Min Fiber Diameter': 0, 'Max Fiber Diameter': 20},
                 {'Subset': 'CTL1_Subset2', 'Min Fiber Diameter': 21, 'Max Fiber Diameter': 40},
                 {'Subset': 'CTL1_Subset3', 'Min Fiber Diameter': 41, 'Max Fiber Diameter': 60},
@@ -65,23 +65,21 @@ class TestFiberDiameterProcessing(unittest.TestCase):
                 {'Subset': 'CTL1_Subset5', 'Min Fiber Diameter': 81, 'Max Fiber Diameter': 100},
                 {'Subset': 'CTL1_Subset6', 'Min Fiber Diameter': 101, 'Max Fiber Diameter': 120}]
 
-        # Assuming the existence of these subsets
+        
         with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp_file:
             file_path = tmp_file.name
 
         writer = pd.ExcelWriter(file_path, engine='openpyxl')
-        # Assuming that your create_subsets_based_on_ranges uses the ranges defined above
+        
         create_subsets_based_on_ranges(self.df, 'FiberDiameter_CTL2', ranges, writer, 'CTL2')
         writer.close()
 
         workbook = load_workbook(file_path)
         created_sheets = workbook.sheetnames
 
-        # Assuming the expected subset creation might not include the 6th subset
-        subset_sheets = [f"CTL2_Subset{i+1}" for i in range(1, 6)]  # Only 5 subsets based on the above ranges
-
-        print("Created sheets:", created_sheets)  # Debug information
-
+        
+        subset_sheets = [f"CTL2_Subset{i+1}" for i in range(1, 6)] 
+        print("Created sheets:", created_sheets) 
         # Validate sheets that should be created based on the data and ranges provided
         self.assertTrue(all(sheet in created_sheets for sheet in subset_sheets))
 

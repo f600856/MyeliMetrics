@@ -31,7 +31,7 @@ def create_subsets_and_save_ranges(df, column, writer, sheet_name_prefix):
             "Max Fiber Diameter": max_fiber_size
         })
 
-    # Return ranges only for specific prefix, adjust as necessary
+    
     return subsets_ranges if sheet_name_prefix == 'CTL1' else None
 
 
@@ -50,7 +50,7 @@ def create_subsets_based_on_ranges(df, column, ranges, writer, sheet_name_prefix
         if subset_df.empty:
             print(f"No data found for {sheet_name_prefix} in the range {min_range} to {max_range}")
 
-    # After writing, check if 'Sheet1' is present and empty, then remove it
+    
     try:
         workbook = writer.book
         if 'Sheet1' in workbook.sheetnames:
@@ -69,11 +69,11 @@ def save_ranges(ranges, ranges_file_path, sheet_name_prefix):
         ranges_df = pd.DataFrame(ranges)
         ranges_df.to_excel(writer, sheet_name=f'{sheet_name_prefix}_Ranges', index=False)
 
-    # Open the workbook to remove 'Sheet1' if it's empty
+    
     workbook = load_workbook(ranges_file_path)
     if 'Sheet1' in workbook.sheetnames:
         sheet1 = workbook['Sheet1']
-        # Check if 'Sheet1' is empty by examining if it has more than the default one cell or any content in A1
+        
         if sheet1.max_row == 1 and sheet1.max_column == 1 and sheet1['A1'].value is None:
             workbook.remove(sheet1)
             workbook.save(ranges_file_path)

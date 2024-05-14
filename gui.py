@@ -20,9 +20,9 @@ import matplotlib.pyplot as plt
 
 
 
-# Initialize a global DataFrame
+
 df = None
-# Function to load file
+
 def load_file():
     global df
     file_path = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx *.xls")])
@@ -33,7 +33,7 @@ def load_file():
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load file: {e}")
 
-# Function to handle data cleanup
+
 def cleanup_data_handler():
     global df
     if df is not None:
@@ -46,7 +46,7 @@ def cleanup_data_handler():
     else:
         messagebox.showerror("Error", "No data loaded.")
 
-# function to handle fiber data processing
+
 def process_fiber_data_handler():
     global df
     if df is not None:
@@ -94,7 +94,7 @@ def sort_fiber_diameter_handler():
         messagebox.showerror("Error", "No data loaded to sort.")
 
 
-# Sort and display 
+
 def sort_and_display_handler():
     global df
     if df is not None:
@@ -113,7 +113,7 @@ def sort_and_display_handler():
 
 def save_sorted_data(df):
     if df is not None:
-        # Open a file dialog to ask for the save location and file name
+        
         file_path = filedialog.asksaveasfilename(
             defaultextension=".xlsx",
             filetypes=[("Excel files", "*.xlsx"), ("All Files", "*.*")],
@@ -121,7 +121,7 @@ def save_sorted_data(df):
         )
         if file_path:
             try:
-                # Use ExcelWriter to save the DataFrame to the chosen path with a custom sheet name
+                
                 custom_sheet_name = "Sorted_Fiber_Diameter" 
                 with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
                     df.to_excel(writer, index=False, sheet_name=custom_sheet_name)
@@ -139,16 +139,16 @@ def filter_subsets_by_count(df, column, min_count=5):
 def process_and_save_subsets_command():
     global df
     if df is not None:
-        # Inform the user to save the subsets file
+       
         messagebox.showinfo("Save Subsets", "Please save the subsets file.")
         subsets_file_path = filedialog.asksaveasfilename(title="Save Subsets File", defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")])
 
-        # Inform the user to save the statistical analysis result
+       
         messagebox.showinfo("Save Ranges File", "Please save the CTL1 ranges file.")
         ranges_file_path = filedialog.asksaveasfilename(title="Save Ranges File", defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")])
 
         if subsets_file_path and ranges_file_path:
-            # Handle subsets and ranges with an Excel writer and save them
+            
             with pd.ExcelWriter(subsets_file_path, engine='openpyxl') as writer:
                 
                 ctl1_ranges = create_subsets_and_save_ranges(df, 'FiberDiameter_CTL1', writer, 'CTL1')
@@ -156,7 +156,7 @@ def process_and_save_subsets_command():
                 create_subsets_based_on_ranges(df[['FiberDiameter_CTL3', 'CTL3_Ax', 'CTL3_My', 'G-Ratio_CTL3']].dropna(), 'FiberDiameter_CTL3', ctl1_ranges, writer, 'CTL3')
                 create_subsets_based_on_ranges(df[['FiberDiameter_CTL4', 'CTL4_Ax', 'CTL4_My', 'G-Ratio_CTL4']].dropna(), 'FiberDiameter_CTL4', ctl1_ranges, writer, 'CTL4')
 
-            # Handle ranges in a separate file
+            
             if ctl1_ranges:
                 save_ranges(ctl1_ranges, ranges_file_path, 'CTL1')
 
@@ -184,14 +184,13 @@ def analyze_g_ratio_handler():
         messagebox.showerror("Error", "No output file selected. Please select a file to save the results.")
         return
 
-    # Assuming the code directory as the default folder for histograms
+    
     code_directory = os.path.dirname(os.path.realpath(__file__))
     histogram_folder_path = os.path.join(code_directory, "Histograms")
-    os.makedirs(histogram_folder_path, exist_ok=True)  # Ensure the directory exists
-
+    os.makedirs(histogram_folder_path, exist_ok=True)  
     try:
         if os.path.exists(output_file_path):
-            # The file is removed if it exists to prevent appending
+            
             os.remove(output_file_path)  
 
         analyze_g_ratio(input_file_path, output_file_path, histogram_folder_path, results_sheet_name="Statistical_analysis")
@@ -211,7 +210,7 @@ def modality_test_handler():
    
     messagebox.showinfo("Open File", "Please open subsets file for the Modality Check.")
     
-    # After the user clicks 'OK', proceed to open the file dialog
+    
     file_path = filedialog.askopenfilename(title="Open File for Modality Check", filetypes=[("Excel files", "*.xlsx;*.xls")])
     
     if not file_path:
@@ -266,15 +265,15 @@ def grand_mean_g_ratio_handler():
 
     process_data(ctl_path, exp_path, save_path)
     
-    # Assuming data has been saved and now calculating grand means
+    
     ctl_data = pd.read_excel(save_path, sheet_name='CTL_Data')
     exp_data = pd.read_excel(save_path, sheet_name='EXP_Data')
     
-    # Compute grand means for G-Ratio
+    
     ctl_grand_mean = ctl_data.filter(like='G-Ratio').mean().mean()
     exp_grand_mean = exp_data.filter(like='G-Ratio').mean().mean()
     
-   # messagebox.showinfo("Grand Mean Results", f"CTL Grand Mean G-Ratio: {ctl_grand_mean:.2f}\nEXP Grand Mean G-Ratio: {exp_grand_mean:.2f}")
+   
     messagebox.showinfo("Success", "Data combined and saved successfully at: " + save_path)
 
 
@@ -338,7 +337,7 @@ def Visualize_CTL_EXP_plot():
     try:
         max_fibers_ctl = get_max_fiber_diameters(ctl_data)
         fig_ctl_exp = calculate_means_and_plot(ctl_data, exp_data, max_fibers_ctl, "CTL", "CTL", "EXP", "EXP")
-        # Save plots in the 'Plots' directory within the code directory
+        
         code_directory = os.path.dirname(os.path.realpath(__file__))
         plot_directory = os.path.join(code_directory, "Plots")
         os.makedirs(plot_directory, exist_ok=True)
@@ -356,7 +355,7 @@ def Visualize_CTL_EXP_plot():
 # Create the GUI window
 root = tk.Tk()
 root.title("MyeliMetrics: A Comprehensive Tool for G-Ratio Calculation and Visualization")
-# Optionally set a minimum window size
+#  set a minimum window size
 root.minsize(1375, 1200)
 
 # Load the logo image
@@ -385,13 +384,13 @@ def set_background():
     # Use the Canvas to add the background image
     canvas.create_image(0, 0, image=logo_photo, anchor="nw")
     
-    # Keep a reference to the image object
+    #  reference to the image object
     canvas.image = logo_photo
 
 # Call the function to set the background after the event loop starts
 root.after(100, set_background)
 
-# Set a common button size
+# Set button size
 button_width = 17
 button_height = 1
 button_color = "white"
@@ -424,7 +423,7 @@ comparative_button.pack(expand=True)
 final_plot_button= tk.Button(root, text="Show Combined Plots",  command=Visualize_CTL_EXP_plot, width=button_width, height=button_height, bg=button_color, fg=text_color)
 final_plot_button.pack(expand=True)
 
-# Bind this function to a button in GUI
+
 
 
 

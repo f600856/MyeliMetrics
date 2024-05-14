@@ -32,14 +32,14 @@ def get_max_fiber_diameters(df):
 
 
 def calculate_means_and_plot(ctl_df, exp_df, max_fibers, ctl_prefix, ctl_group, exp_prefix, exp_group): 
-    fig, ax = plt.subplots()  # Default size for better fit
+    fig, ax = plt.subplots()  
     datasets = {'CTL': ctl_df, 'EXP': exp_df}
     colors = {'CTL': 'blue', 'EXP': 'red'}
     markers = {'CTL': 'o', 'EXP': 's'}
     grand_means = {'CTL': [], 'EXP': []}
     label_added = {'CTL': False, 'EXP': False}
 
-    # Directly extract max fiber diameters from CTL1 subset columns
+    # extract max fiber diameters from CTL1 subset columns
     ctl1_max_diameters = []
     for col in ctl_df.columns:
         if "CTL1" in col and "Fiber Diameter_Max" in col:
@@ -86,10 +86,10 @@ def calculate_means_and_plot(ctl_df, exp_df, max_fibers, ctl_prefix, ctl_group, 
     ax.set_xlabel('Max Fiber Diameter (µm) from CTL1')
     ax.set_ylabel('G-Ratio')
 
-    # Simplify the legend to only show "CTL" and "EXP"
+    
     ax.legend(loc='upper right', title='Groups')
 
-    plt.xticks(x_values)  # Set x-ticks to show all max diameters from CTL1
+    plt.xticks(x_values)  
     plt.show()
 
     return fig
