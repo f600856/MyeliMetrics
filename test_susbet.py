@@ -4,11 +4,10 @@ import numpy as np
 import tempfile
 import os
 from openpyxl import load_workbook
-from ctl1_subset import create_subsets_and_save_ranges, create_subsets_based_on_ranges  # Replace with your actual module name
-
+from ctl1_subset import create_subsets_and_save_ranges, create_subsets_based_on_ranges  
 class TestFiberDiameterProcessing(unittest.TestCase):
     def setUp(self):
-        # Create a sample DataFrame for testing
+       
         self.df = pd.DataFrame({
             'FiberDiameter_CTL1': np.linspace(0, 100, num=120),
             'FiberDiameter_CTL2': np.random.uniform(0, 100, size=120),
@@ -37,17 +36,17 @@ class TestFiberDiameterProcessing(unittest.TestCase):
         created_sheets = workbook.sheetnames
         expected_sheets = [f"CTL1_Subset{i+1}" for i in range(6)]
 
-        # Debug: Output for visual verification
+        
         print("Created sheets:", created_sheets)
         print("Expected sheets:", expected_sheets)
         
-        # Check if created sheets are among the expected ones
+       
         self.assertTrue(all(sheet in expected_sheets for sheet in created_sheets))
 
-        # Further verify that each created sheet's data matches expected ranges
+        
         for sheet_name in created_sheets:
             data = pd.read_excel(file_path, sheet_name=sheet_name)
-            subset_index = int(sheet_name.split('Subset')[-1]) - 1  # Assuming sheet names are well-formed
+            subset_index = int(sheet_name.split('Subset')[-1]) - 1  
             min_diameter, max_diameter = ranges[subset_index]['Min Fiber Diameter'], ranges[subset_index]['Max Fiber Diameter']
             if not data.empty:
                 self.assertAlmostEqual(data['FiberDiameter_CTL1'].min(), min_diameter)
@@ -80,7 +79,7 @@ class TestFiberDiameterProcessing(unittest.TestCase):
         
         subset_sheets = [f"CTL2_Subset{i+1}" for i in range(1, 6)] 
         print("Created sheets:", created_sheets) 
-        # Validate sheets that should be created based on the data and ranges provided
+        
         self.assertTrue(all(sheet in created_sheets for sheet in subset_sheets))
 
         os.remove(file_path)

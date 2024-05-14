@@ -25,8 +25,8 @@ class TestCalculateGRatio(unittest.TestCase):
         result_df = calculate_g_ratio(self.df.copy(), self.experiments)
 
        
-        expected_g_ratios_ctl1 = [0.78, 0.72, 0.97]  # G-ratios for CTL1
-        expected_g_ratios_ctl2 = [0.38, 0.75, 0.76]  # G-ratios for CTL2
+        expected_g_ratios_ctl1 = [0.78, 0.72, 0.97]  
+        expected_g_ratios_ctl2 = [0.38, 0.75, 0.76]  
         pd.testing.assert_series_equal(result_df['G-Ratio_CTL1'], pd.Series(expected_g_ratios_ctl1, name='G-Ratio_CTL1'))
         pd.testing.assert_series_equal(result_df['G-Ratio_CTL2'], pd.Series(expected_g_ratios_ctl2, name='G-Ratio_CTL2'))
     def test_ensure_columns_exist(self):

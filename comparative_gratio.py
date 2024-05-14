@@ -1,6 +1,3 @@
-
-
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
@@ -15,8 +12,8 @@ def read_data(file_path):
 def extract_max_fiber_diameters(df):
     """ Extract maximum fiber diameters from the CTL data. """
     max_fibers = {}
-    for i in range(1, 7):  # Assuming there are 6 subsets
-        for group_number in range(1, 5):  # Assuming there are 3 groups (CTL1, CTL2, CTL3)
+    for i in range(1, 7):  
+        for group_number in range(1, 5):  
             fiber_max = f"CTL{group_number}_Subset{i}_Fiber Diameter_Max"
             if fiber_max in df.columns:
                 max_fibers[f"{group_number}_{i}"] = df[fiber_max].dropna().values[0]
@@ -24,15 +21,15 @@ def extract_max_fiber_diameters(df):
 def create_scatter_plot(df, max_fibers, title_prefix, group_prefix):
     """ Create the scatter plot using specific columns from the CTL or EXP DataFrame using CTL max fiber diameters. """
     fig, ax = plt.subplots()
-    colors = ['red', 'green', 'blue', 'orange']  # Colors for group 1, group 2, group 3
+    colors = ['red', 'green', 'blue', 'orange']  
     g_ratio_means = []
     data_plotted = False
 
-    # Determine the overall x-axis range from CTL max fiber diameters
+    
     min_diameter = min(max_fibers.values())
     max_diameter = max(max_fibers.values())
 
-    # Loop through the subsets and plot each one
+    
     for i in range(1, 7):  
         for group_number in range(1, 5):  
             g_ratio_mean_key = f"{group_prefix}{group_number}_Subset{i}_G-Ratio_Mean"
@@ -48,7 +45,7 @@ def create_scatter_plot(df, max_fibers, title_prefix, group_prefix):
                 data_plotted = True
     ax.set_xlim(min_diameter, max_diameter)
 
-    # Calculate and plot the grand mean line if data was plotted
+    
     if data_plotted:
         grand_mean = sum(g_ratio_means) / len(g_ratio_means) if g_ratio_means else 0
         ax.axhline(y=grand_mean, color='gray', linestyle='-', label=f'Grand Mean: {grand_mean:.2f}')

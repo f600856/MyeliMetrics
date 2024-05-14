@@ -10,7 +10,7 @@ from scipy.stats import shapiro, t
 def analyze_g_ratio(excel_path, output_file, histogram_folder,results_sheet_name="Statistical_analysis"):
     xls = pd.ExcelFile(excel_path)
     results = []
-    # Ensure the histogram directory exists
+    
     os.makedirs(histogram_folder, exist_ok=True)  
 
     for sheet_name in xls.sheet_names:
@@ -48,7 +48,7 @@ def analyze_g_ratio(excel_path, output_file, histogram_folder,results_sheet_name
 
     
 
-# Write results to an Excel file
+
     results_df = pd.DataFrame(results)
     with pd.ExcelWriter(output_file, engine='openpyxl', mode='a' if os.path.exists(output_file) else 'w') as writer:
         results_df.to_excel(writer, index=False, sheet_name=results_sheet_name)
