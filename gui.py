@@ -201,10 +201,6 @@ def analyze_g_ratio_handler():
 
 
 
-
-
-
-
 def modality_test_handler():
    
     messagebox.showinfo("Open File", "Please open subsets file for the Modality Check.")
@@ -249,15 +245,16 @@ def modality_test_handler():
 
 def grand_mean_g_ratio_handler():
     
-    messagebox.showinfo("Select Files", "Please select the CTL subset and EXP subset Excel files.")
+    messagebox.showinfo("Select Files", "Please select the CTL subset and EXP subset Excel files and then save combined g-ratio file.")
     
     ctl_path = filedialog.askopenfilename(title="Select CTL Excel File", filetypes=[("Excel Files", "*.xlsx"), ("All Files", "*.*")])
     exp_path = filedialog.askopenfilename(title="Select EXP Excel File", filetypes=[("Excel Files", "*.xlsx"), ("All Files", "*.*")])
     if not ctl_path or not exp_path:
         messagebox.showerror("Error", "You need to select both CTL and EXP files to continue.")
         return
-
+    
     save_path = filedialog.asksaveasfilename(title="Save Output", defaultextension=".xlsx", filetypes=[("Excel Files", "*.xlsx"), ("All Files", "*.*")])
+    
     if not save_path:
         messagebox.showerror("Error", "You need to select a file name to save the combined data.")
         return
@@ -313,7 +310,6 @@ def comparative_gratio_plot():
     finally:
         plt.close('all')  
          
-
 
 
 
