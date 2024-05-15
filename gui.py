@@ -154,8 +154,7 @@ def process_and_save_subsets_command():
                 ctl1_ranges = create_subsets_and_save_ranges(df, 'FiberDiameter_CTL1', writer, 'CTL1')
                 create_subsets_based_on_ranges(df[['FiberDiameter_CTL2', 'CTL2_Ax', 'CTL2_My', 'G-Ratio_CTL2']].dropna(), 'FiberDiameter_CTL2', ctl1_ranges, writer, 'CTL2')
                 create_subsets_based_on_ranges(df[['FiberDiameter_CTL3', 'CTL3_Ax', 'CTL3_My', 'G-Ratio_CTL3']].dropna(), 'FiberDiameter_CTL3', ctl1_ranges, writer, 'CTL3')
-                create_subsets_based_on_ranges(df[['FiberDiameter_CTL4', 'CTL4_Ax', 'CTL4_My', 'G-Ratio_CTL4']].dropna(), 'FiberDiameter_CTL4', ctl1_ranges, writer, 'CTL4')
-
+                
             
             if ctl1_ranges:
                 save_ranges(ctl1_ranges, ranges_file_path, 'CTL1')
